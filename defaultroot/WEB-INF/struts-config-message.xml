@@ -1,0 +1,34 @@
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.1//EN" "http://jakarta.apache.org/struts/dtds/struts-config_1_1.dtd">
+<!-- edited with XMLSPY v2004 rel. 2 U (http://www.xmlspy.com) by ccggyy2002 (Delphi) -->
+
+<struts-config>
+	<form-beans>
+		<form-bean name="messageListForm"
+			type="com.kurui.kums.message.MessageListForm">
+		</form-bean>
+		<form-bean name="message"
+			type="com.kurui.kums.message.Message">
+		</form-bean>
+	</form-beans>
+	<action-mappings>
+		<action name="messageListForm" path="/message/messageList"
+			parameter="thisAction"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" scope="request">
+			<forward name="listMessage" path="/message/listMessage.jsp" />
+			<forward name="editMessage" path="/message/ediMessage.jsp" />
+			<forward name="viewMessage" path="/message/viewMessage.jsp" />
+
+			<forward name="listBaseCase" path="/message/listBaseCase.jsp" />
+		</action>
+
+		<action name="message" path="/message/message"
+			parameter="thisAction"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			validate="false" scope="request">
+			<forward name="listMessage" path="/message/listMessage.jsp" />
+
+			<forward name="listBaseCase" path="/message/listBaseCase.jsp" />
+		</action>
+	</action-mappings>
+</struts-config>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans default-lazy-init="false" default-autowire="no"
+	default-dependency-check="none">
+	<bean id="dBCHPool" class="com.kurui.kums.base.database.DBCHPool">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+	</bean>
+
+	<bean id="theFilter"
+		class="com.kurui.kums.base.filters.SetCharacterEncodingFilter">
+		<property name="urls">
+			<list>
+				<value>/_jsp/mainTitle.jsp</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="MQconstant" class="com.kurui.kums.base.Constant">
+		<property name="url">
+			<list>
+				<value>user.login</value>
+				<value>message.*</value>
+				<value>messageList.*</value>				
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="SMUtil" class="com.kurui.kums.base.message.SMUtil">
+		<property name="url">
+			<value><![CDATA[http://chineseserver.net:3388/CellServer/SmsAPI2/SendMessage.jsp]]></value>
+		</property>
+		<property name="username">
+			<value>7696</value>
+		</property>
+		<property name="password">
+			<value>an654321</value>
+		</property>
+	</bean>
+
+	
+</beans>

@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans default-lazy-init="false" default-autowire="no"
+	default-dependency-check="none">
+		<!-- 接收端 -->
+		<bean id="listenner"
+			class="com.javaeye.spring.services.jms.mdp.JmsListenner">
+		</bean>
+
+		<bean id="userJmsUtil"
+			class="com.kurui.kums.jms.jboss.example1.spring.UserJmsTransactionUtil">
+			<property name="connectionFactoryJndiLookUp"
+				value="java:JmsXA">
+			</property>
+			<property name="destinationJndiLookUp" value="queue/A"></property>
+			<property name="localConnectionFactoryJndiLookUp"
+				value="ConnectionFactory">
+			</property>
+		</bean>
+
+		<bean id="localConnectionFactory"
+			class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+			<property name="targetObject" ref="userJmsUtil"></property>
+			<property name="targetMethod"
+				value="getQueueConnectionFactory">
+			</property>
+		</bean>
+
+		<bean id="localDestination"
+			class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+			<property name="targetObject" ref="userJmsUtil"></property>
+			<property name="targetMethod"
+				value="getLocalJmsDestination">
+			</property>
+		</bean>
+
+		<bean id="listenerContainer"
+			class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+			<property name="concurrentConsumers" value="5"></property>
+			<property name="connectionFactory"
+				ref="localConnectionFactory">
+			</property>
+			<property name="destination" ref="localDestination"></property>
+			<property name="messageListener" ref="listenner"></property>
+		</bean>
+</beans>
